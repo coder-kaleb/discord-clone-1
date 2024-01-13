@@ -1,19 +1,28 @@
 import React from "react";
 import Bar3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import dicord from "../assets/discord.png";
+import { signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
+import { auth, provider } from "../config/firebase";
+import { useNavigate } from "react-router-dom";
+import { useAuthState } from "react-firebase-hooks/auth";
 const Header = () => {
-  //   const [user] = useAuthState(auth);
-  //   const history = useHistory();
+  const [user] = useAuthState(auth);
 
-  //   const signIn = (e) => {
-  //     e.preventDefault();
+  const navigate = useNavigate();
 
-  //     auth
-  //       .signInWithPopup(provider)
-  //       .then(() => history.push("/channels"))
-  //       .catch((error) => alert(error.message));
-  //   };
+  const handleSignIn = async () => {
+    if (user) {
+      navigate("/channels");
+      return;
+    }
+    try {
+      await signInWithPopup(auth, provider);
+      navigate("/channels");
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   return (
     <header className="bg-discord_blue flex items-center justify-between py-4 px-6">
       <Link href="/">
@@ -39,9 +48,9 @@ const Header = () => {
       <div className="flex space-x-4">
         <button
           className="bg-white p-2 rounded-full text-xs md:text-sm px-4 focus:outline-none hover:shadow-2xl hover:text-discord_blurple transition duration-200 ease-in-out whitespace-nowrap font-medium"
-          //   onClick={!user ? signIn : () => history.push("/channels")}
+          onClick={handleSignIn}
         >
-          Login
+          {!user ? "Login" : "Open Discord"}
         </button>
         <Bar3Icon className="h-9 text-white cursor-pointer lg:hidden" />
       </div>
