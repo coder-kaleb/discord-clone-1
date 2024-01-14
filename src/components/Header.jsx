@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Bar3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import dicord from "../assets/discord.png";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { auth, provider } from "../config/firebase";
-import { useNavigate } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [user] = useAuthState(auth);
-
   const navigate = useNavigate();
+  // useEffect(() => {
+  //   if (user) {
+  //     navigate("/channels");
+  //   }
+  // }, [user]);
 
   const handleSignIn = async () => {
     if (user) {
@@ -52,6 +56,7 @@ const Header = () => {
         >
           {!user ? "Login" : "Open Discord"}
         </button>
+        <button onClick={() => signOut(auth)}>logout</button>
         <Bar3Icon className="h-9 text-white cursor-pointer lg:hidden" />
       </div>
     </header>
