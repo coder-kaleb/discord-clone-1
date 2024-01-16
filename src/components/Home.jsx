@@ -24,6 +24,7 @@ const Home = () => {
   const [user] = useAuthState(auth);
   const q = query(colRef, orderBy("timeStamp", "asc"));
   const [snapshot, loading] = useCollection(q);
+  const pic = user?.photoURL;
 
   const handleAddChannel = async () => {
     const channelName = prompt("Enter Channel Name");
@@ -81,24 +82,24 @@ const Home = () => {
             </div>
           </div>
 
-          <div className=" bg-discord_userSectionBg flex justify-between items-center space-x-8">
+          <div className=" bg-discord_userSectionBg flex justify-between items-center space-x-8 p-1">
             <div className="flex items-center space-x-1">
               <img
                 src={user?.photoURL}
-                alt="profile-picture"
-                className="h-10 rounded-full"
+                alt=""
+                className="h-10 rounded-full cursor-pointer"
                 onClick={() => signOut(auth)}
               />
 
               <h4 className=" text-white text-xs font-medium ">
                 {user?.displayName}
                 <span className=" text-discord_userId block">
-                  #{user?.uid.substring(0, 4)}
+                  #{user?.uid.substring(0, 4).toUpperCase()}
                 </span>
               </h4>
             </div>
 
-            <div className="text-gray-400 flex items-center">
+            <div className="text-gray-400 flex items-center ">
               <div className="hover:bg-discord_iconHover p-2 rounded-md">
                 <Mic className=" h-5 icon" />
               </div>
@@ -112,9 +113,9 @@ const Home = () => {
           </div>
         </div>
 
-        {/* <div>
-          <Chat className=' bg-[#36393f]' />
-        </div> */}
+        <div className=" bg-[#36393f] flex-grow">
+          <Chat />
+        </div>
       </div>
     </>
   );
