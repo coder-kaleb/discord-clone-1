@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import HashTag from "@heroicons/react/24/outline/HashtagIcon";
 import BellIcon from "@heroicons/react/24/outline/BellIcon";
 import ChatIcon from "@heroicons/react/24/outline/ChatBubbleLeftEllipsisIcon";
@@ -110,7 +110,7 @@ const Chat = () => {
             />
           );
         })}
-        <div className="pb-16" ref={chatRef} />
+        <div className="pb-4" ref={chatRef} />
       </main>
       <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
         <PlusCircleIcon className="icon mr-4" />
