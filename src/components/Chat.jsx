@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import HashTag from "@heroicons/react/24/outline/HashtagIcon";
 import BellIcon from "@heroicons/react/24/outline/BellIcon";
 import ChatIcon from "@heroicons/react/24/outline/ChatBubbleLeftEllipsisIcon";
@@ -12,21 +12,31 @@ import SearchIcon from "@heroicons/react/24/outline/MagnifyingGlassIcon";
 import { useSelector } from "react-redux";
 import { selectChannelId, selectChannelName } from "../features/channelSlice";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, colRef, db } from "../config/firebase";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { auth, db } from "../config/firebase";
+import Message from "./Message";
 import {
   collection,
   addDoc,
   serverTimestamp,
-  doc,
+  orderBy,
   query,
 } from "firebase/firestore";
 const Chat = () => {
   const channelId = useSelector(selectChannelId);
   const channelName = useSelector(selectChannelName);
   const [user] = useAuthState(auth);
+  const [inputVal, setInputVal] = useState("");
   const inputRef = useRef("");
-  // const subColRef = collection(db, "channels", channelId);
   const chatRef = useRef(null);
+
+  const [messages] = useCollection(
+    channelId &&
+      query(
+        collection(db, "channels", channelId, "messages"),
+        orderBy("timestamp", "asc")
+      )
+  );
 
   const scrollToBottom = () => {
     chatRef.current.scrollIntoView({
@@ -38,12 +48,12 @@ const Chat = () => {
     e.preventDefault();
 
     // const messageRef = query(collection(db, `channels/${channelId}/messages`));
-    if (inputRef.current.value !== "") {
+    if (inputVal !== "") {
       try {
         const messageRef = collection(db, "channels", channelId, "messages");
         await addDoc(messageRef, {
           timestamp: serverTimestamp(),
-          message: inputRef.current.value,
+          message: inputVal,
           name: user?.displayName,
           photoURL: user?.photoURL,
           email: user?.email,
@@ -53,7 +63,7 @@ const Chat = () => {
       }
     }
 
-    inputRef.current.value = "";
+    setInputVal("");
     scrollToBottom();
   };
 
@@ -84,7 +94,22 @@ const Chat = () => {
         </div>
       </header>
 
-      <main className="flex-grow overflow-y-scroll scrollbar-hide">
+      <main className="flex-grow overflow-y-scroll no-scrollbar">
+        {messages?.docs.map((doc) => {
+          const { timestamp, message, name, photoURL, email } = doc.data();
+
+          return (
+            <Message
+              key={doc.id}
+              message={message}
+              photoURL={photoURL}
+              timestamp={timestamp}
+              name={name}
+              email={email}
+              id={doc.id}
+            />
+          );
+        })}
         <div className="pb-16" ref={chatRef} />
       </main>
       <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
@@ -98,6 +123,8 @@ const Chat = () => {
             }
             className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
             ref={inputRef}
+            value={inputVal}
+            onChange={(e) => setInputVal(e.target.value)}
           />
           <button hidden type="submit" onClick={sendMessage}>
             Send
