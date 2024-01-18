@@ -2,12 +2,12 @@ import { initializeApp } from "firebase/app";
 import { collection, getFirestore } from "firebase/firestore";
 import { GoogleAuthProvider, getAuth } from "firebase/auth";
 const firebaseConfig = {
-  apiKey: "AIzaSyBaq0EW2-BOe452m9AsOZgGtR-iFyY5m1Q",
-  authDomain: "discord-db8b5.firebaseapp.com",
-  projectId: "discord-db8b5",
-  storageBucket: "discord-db8b5.appspot.com",
-  messagingSenderId: "486959095001",
-  appId: "1:486959095001:web:7dee4bc126b8795315f2c8",
+  apiKey: import.meta.env.VITE_API_KEY,
+  authDomain: import.meta.env.VITE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);

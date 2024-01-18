@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
 import Bar3Icon from "@heroicons/react/24/outline/Bars3Icon";
 import dicord from "../assets/discord.png";
-import { signInWithPopup, signOut } from "firebase/auth";
+import { signInWithPopup } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { auth, provider } from "../config/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -9,11 +8,6 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [user] = useAuthState(auth);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   if (user) {
-  //     navigate("/channels");
-  //   }
-  // }, [user]);
 
   const handleSignIn = async () => {
     if (user) {
@@ -28,11 +22,11 @@ const Header = () => {
     }
   };
   return (
-    <header className="bg-discord_blue flex items-center justify-between py-4 px-6">
+    <header className="flex items-center justify-between bg-discord_blue px-6 py-4">
       <Link href="/">
-        <img src={dicord} className=" w-32 h-12 object-contain" alt="" />
+        <img src={dicord} className=" h-12 w-32 object-contain" alt="" />
       </Link>
-      <div className="hidden lg:flex  space-x-6 ">
+      <div className="hidden space-x-6  lg:flex ">
         <Link className="link" to="/">
           Download
         </Link>
@@ -51,13 +45,12 @@ const Header = () => {
       </div>
       <div className="flex space-x-4">
         <button
-          className="bg-white p-2 rounded-full text-xs md:text-sm px-4 focus:outline-none hover:shadow-2xl hover:text-discord_blurple transition duration-200 ease-in-out whitespace-nowrap font-medium"
+          className="whitespace-nowrap rounded-full bg-white p-2 px-4 text-xs font-medium transition duration-200 ease-in-out hover:text-discord_blurple hover:shadow-2xl focus:outline-none md:text-sm"
           onClick={handleSignIn}
         >
           {!user ? "Login" : "Open Discord"}
         </button>
-        <button onClick={() => signOut(auth)}>logout</button>
-        <Bar3Icon className="h-9 text-white cursor-pointer lg:hidden" />
+        <Bar3Icon className="h-9 cursor-pointer text-white lg:hidden" />
       </div>
     </header>
   );

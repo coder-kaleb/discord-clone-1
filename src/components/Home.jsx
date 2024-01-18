@@ -24,7 +24,6 @@ const Home = () => {
   const [user] = useAuthState(auth);
   const q = query(colRef, orderBy("timeStamp", "asc"));
   const [snapshot, loading] = useCollection(q);
-  const pic = user?.photoURL;
 
   const handleAddChannel = async () => {
     const channelName = prompt("Enter Channel Name");
@@ -40,29 +39,29 @@ const Home = () => {
     <>
       {!user && <Navigate to="/" />}
       <div className="flex h-screen">
-        <div className="flex flex-col space-y-3 bg-seer bg-discord_serversBg px-2">
-          <div className="server-default hover:bg-discord_purple min-w-max p-3 mt-2">
+        <div className="bg-seer flex flex-col space-y-3 bg-discord_serversBg px-2">
+          <div className="server-default mt-2 min-w-max p-3 hover:bg-discord_purple">
             <img src="https://rb.gy/kuaslg" alt="" className="h-5" />
           </div>
-          <hr className=" border-gray-700 border w-8 mx-auto" />
+          <hr className=" mx-auto w-8 border border-gray-700" />
           <ServerIcon image="https://rb.gy/qidcpp" />
           <ServerIcon image="https://rb.gy/zxo0lz" />
           <ServerIcon image="https://rb.gy/qidcpp" />
           <ServerIcon image="https://rb.gy/zxo0lz" />
 
-          <div className=" server-default hover:bg-discord_green group">
-            <PlusIcon className=" text-discord_green h-7 group-hover:text-white" />
+          <div className=" server-default group hover:bg-discord_green">
+            <PlusIcon className=" h-7 text-discord_green group-hover:text-white" />
           </div>
         </div>
 
-        <div className=" bg-discord_channelsBg flex flex-col min-w-max">
-          <h2 className="flex text-white font-bold text-sm items-center justify-between border-b border-gray-800 p-4 hover:bg-discord_serverNameHoverBg">
-            Official KALEB chanlelel <ChevronIcon className="h-5 ml-2" />{" "}
+        <div className=" flex min-w-max flex-col bg-discord_channelsBg">
+          <h2 className="flex items-center justify-between border-b border-gray-800 p-4 text-sm font-bold text-white hover:bg-discord_serverNameHoverBg">
+            Official KALEB chanlelel <ChevronIcon className="ml-2 h-5" />{" "}
           </h2>
 
-          <div className=" text-discord_channel flex-grow overflow-y-scroll no-scrollbar ">
-            <div className="flex items-center p-2 mb-2">
-              <ChevronIcon className="h-4 mr-2" />
+          <div className=" no-scrollbar flex-grow overflow-y-scroll text-discord_channel ">
+            <div className="mb-2 flex items-center p-2">
+              <ChevronIcon className="mr-2 h-4" />
               <h4 className="font-semibold">Channels</h4>
               <PlusIcon
                 className="ml-auto h-6 cursor-pointer hover:text-white"
@@ -70,7 +69,7 @@ const Home = () => {
               />
             </div>
 
-            <div className="flex flex-col space-y-2 px-2 mb-4">
+            <div className="mb-4 flex flex-col space-y-2 px-2">
               {snapshot?.docs.map((doc) => (
                 <Channel
                   id={doc.id}
@@ -82,38 +81,38 @@ const Home = () => {
             </div>
           </div>
 
-          <div className=" bg-discord_userSectionBg flex justify-between items-center space-x-8 p-1">
+          <div className=" flex items-center justify-between space-x-8 bg-discord_userSectionBg p-1">
             <div className="flex items-center space-x-1">
               <img
                 src={user?.photoURL}
                 alt=""
-                className="h-10 rounded-full cursor-pointer"
+                className="h-10 cursor-pointer rounded-full"
                 onClick={() => signOut(auth)}
               />
 
-              <h4 className=" text-white text-xs font-medium ">
+              <h4 className=" text-xs font-medium text-white ">
                 {user?.displayName}
-                <span className=" text-discord_userId block">
+                <span className=" block text-discord_userId">
                   #{user?.uid.substring(0, 4).toUpperCase()}
                 </span>
               </h4>
             </div>
 
-            <div className="text-gray-400 flex items-center ">
-              <div className="hover:bg-discord_iconHover p-2 rounded-md">
-                <Mic className=" h-5 icon" />
+            <div className="flex items-center text-gray-400 ">
+              <div className="rounded-md p-2 hover:bg-discord_iconHover">
+                <Mic className=" icon h-5" />
               </div>
-              <div className="hover:bg-discord_iconHover p-2 rounded-md">
-                <PhoneIcon className=" h-5 icon" />
+              <div className="rounded-md p-2 hover:bg-discord_iconHover">
+                <PhoneIcon className=" icon h-5" />
               </div>
-              <div className="hover:bg-discord_iconHover p-2 rounded-md">
-                <CogIcon className=" h-5 icon" />
+              <div className="rounded-md p-2 hover:bg-discord_iconHover">
+                <CogIcon className=" icon h-5" />
               </div>
             </div>
           </div>
         </div>
 
-        <div className=" bg-[#36393f] flex-grow">
+        <div className=" flex-grow bg-[#36393f]">
           <Chat />
         </div>
       </div>

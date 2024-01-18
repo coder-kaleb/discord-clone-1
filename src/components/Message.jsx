@@ -13,19 +13,19 @@ const Message = ({ message, photoURL, timestamp, name, email, id }) => {
     deleteDoc(docRef);
   };
   return (
-    <div className="flex items-center p-1 pl-5 my-5 mr-2 hover:bg-[#32353B] group">
+    <div className="group my-5 mr-2 flex items-center p-1 pl-5 hover:bg-[#32353B]">
       <img
         src={photoURL}
         alt=""
-        className="h-10 rounded-full cursor-pointer mr-3 hover:shadow-2xl"
+        className="mr-3 h-10 cursor-pointer rounded-full hover:shadow-2xl"
       />
 
       <div className="flex flex-col">
         <h4 className="flex items-center space-x-2 font-medium">
-          <span className="hover:underline text-white text-sm cursor-pointer">
+          <span className="cursor-pointer text-sm text-white hover:underline">
             {name}
           </span>
-          <span className="text-[#72767d] text-xs">
+          <span className="text-xs text-[#72767d]">
             {moment(timestamp?.toDate().getTime()).format("lll")}
           </span>
         </h4>
@@ -33,10 +33,10 @@ const Message = ({ message, photoURL, timestamp, name, email, id }) => {
       </div>
       {user?.email === email && (
         <div
-          className="hover:bg-[#ed4245] p-1 ml-auto rounded-sm text-[#ed4245] hover:text-white cursor-pointer"
+          className="ml-auto cursor-pointer rounded-sm p-1 text-[#ed4245] hover:bg-[#ed4245] hover:text-white"
           onClick={handleDelte}
         >
-          <TrashIcon className="h-5 hidden group-hover:inline" />
+          <TrashIcon className="hidden h-5 group-hover:inline" />
         </div>
       )}
     </div>

@@ -34,8 +34,8 @@ const Chat = () => {
     channelId &&
       query(
         collection(db, "channels", channelId, "messages"),
-        orderBy("timestamp", "asc")
-      )
+        orderBy("timestamp", "asc"),
+      ),
   );
 
   const scrollToBottom = () => {
@@ -47,7 +47,6 @@ const Chat = () => {
   const sendMessage = async (e) => {
     e.preventDefault();
 
-    // const messageRef = query(collection(db, `channels/${channelId}/messages`));
     if (inputVal !== "") {
       try {
         const messageRef = collection(db, "channels", channelId, "messages");
@@ -70,21 +69,21 @@ const Chat = () => {
   // const [messages] = useColl
 
   return (
-    <div className="flex flex-col h-screen">
-      <header className="flex items-center justify-between space-x-5 border-b border-gray-800 p-4 -mt-1">
+    <div className="flex h-screen flex-col">
+      <header className="-mt-1 flex items-center justify-between space-x-5 border-b border-gray-800 p-4">
         <div className="flex items-center space-x-1">
           <HashTag className="h-5 text-[#72767d]" />
-          <h4 className="text-white font-semibold">{channelName}</h4>
+          <h4 className="font-semibold text-white">{channelName}</h4>
         </div>
 
         <div className="flex space-x-3">
           <BellIcon className="icon" />
           <ChatIcon className="icon" />
           <UserIcon className="icon" />
-          <div className="bg-[#202225] text-xs p-1 rounded-md flex ">
+          <div className="flex rounded-md bg-[#202225] p-1 text-xs ">
             <input
               type="text"
-              className=" bg-transparent focus:outline-none placeholder-[#72767d] pl-1 text-white text-md"
+              className=" text-md bg-transparent pl-1 text-white placeholder-[#72767d] focus:outline-none"
               placeholder="Search"
             />
             <SearchIcon className="h-4 text-discord_userId" />
@@ -94,7 +93,7 @@ const Chat = () => {
         </div>
       </header>
 
-      <main className="flex-grow overflow-y-scroll no-scrollbar">
+      <main className="no-scrollbar flex-grow overflow-y-scroll">
         {messages?.docs.map((doc) => {
           const { timestamp, message, name, photoURL, email } = doc.data();
 
@@ -112,7 +111,7 @@ const Chat = () => {
         })}
         <div className="pb-4" ref={chatRef} />
       </main>
-      <div className="flex items-center p-2.5 bg-[#40444b] mx-5 mb-7 rounded-lg">
+      <div className="mx-5 mb-7 flex items-center rounded-lg bg-[#40444b] p-2.5">
         <PlusCircleIcon className="icon mr-4" />
         <form className="flex-grow">
           <input
@@ -121,7 +120,7 @@ const Chat = () => {
             placeholder={
               channelId ? `Message #${channelName}` : "Select a channel"
             }
-            className="bg-transparent focus:outline-none text-[#dcddde] w-full placeholder-[#72767d] text-sm"
+            className="w-full bg-transparent text-sm text-[#dcddde] placeholder-[#72767d] focus:outline-none"
             ref={inputRef}
             value={inputVal}
             onChange={(e) => setInputVal(e.target.value)}

@@ -5,7 +5,7 @@ const ServerIcon = ({ image }) => {
     <img
       src={image}
       alt="sider-bar-icons"
-      className="h-12 rounded-full transition-all duration-100 ease-out hover:rounded-2xl"
+      className="h-12 rounded-full object-cover transition-all duration-100 ease-out hover:rounded-2xl"
     />
   );
 };

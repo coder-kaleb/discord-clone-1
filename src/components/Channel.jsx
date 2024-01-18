@@ -12,16 +12,16 @@ const Channel = ({ id, channelName }) => {
       setChannelInfo({
         channelId: id,
         channelName,
-      })
+      }),
     );
     navigate(`/channels/${id}`);
   };
   return (
     <div
-      className=" font-medium flex items-center cursor-pointer hover:bg-discord_channelHoverBg p-1 rounded-md hover:text-white transition "
+      className=" flex cursor-pointer items-center rounded-md p-1 font-medium transition hover:bg-discord_channelHoverBg hover:text-white "
       onClick={setChannel}
     >
-      <HashTag className="h-5 mr-2" /> {channelName}
+      <HashTag className="mr-2 h-5" /> {channelName}
     </div>
   );
 };
